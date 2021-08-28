@@ -1,0 +1,15 @@
+kramdown:
+  input: GFM
+  toc_levels: 2..3
+
+baseurl: ""
+layouts_dir: "layouts"
+includes_dir: "includes"
+
+exclude: ["Gemfile", "Gemfile.lock", "README.md", "vendor", "layouts"]
+
+repository: revolt-php/revolt-php.github.io
+plugins:
+  - "jekyll-github-metadata"
+  - "jekyll-redirect-from"
+  - "jekyll-relative-links"
