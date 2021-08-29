@@ -8,7 +8,7 @@ includes_dir: "includes"
 
 exclude: ["Gemfile", "Gemfile.lock", "README.md", "vendor", "layouts"]
 
-repository: revolt-php/revolt-php.github.io
+repository: revoltphp/revoltphp.github.io
 plugins:
   - "jekyll-github-metadata"
   - "jekyll-redirect-from"
