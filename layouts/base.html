@@ -5,13 +5,17 @@
 
     <title>{{ page.title }} | Revolt PHP</title>
 
-    <meta name="description" content="{{ page.description | default: ' Revolt is a rock-solid event loop for concurrent PHP applications.' }}">
-    <meta name="keywords" content="{{ page.keywords | join: ', ' | default: 'revolt, event-loop, non-blocking I/O, concurrency, PHP' }}">
+    <meta name="description"
+          content="{{ page.description | default: 'Revolt is a rock-solid event loop for concurrent PHP applications.' }}">
+    <meta name="keywords"
+          content="{{ page.keywords | join: ', ' | default: 'revolt, event-loop, non-blocking I/O, concurrency, PHP' }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&family=Oxygen&family=Fira+Code&display=swap">
     <link rel="stylesheet" href="/assets/styles/screen.css?v={{site.github.build_revision}}"/>
+    <link rel="stylesheet" href="/assets/styles/code.css?v={{site.github.build_revision}}"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -22,42 +26,91 @@
     <meta property="og:url" content="{{ page.url }}">
     <meta property="og:title" content="{{ page.title }}">
     <meta property="og:image" content="{{ page.ogImage | default: 'https://revolt.run/assets/images/og.png' }}">
-    <meta property="og:description" content="{{ page.description | default: 'Revolt is a rock-solid event loop for concurrent PHP applications.' }}">
+    <meta property="og:description"
+          content="{{ page.description | default: 'Revolt is a rock-solid event loop for concurrent PHP applications.' }}">
     <meta property="og:locale" content="en_US">
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 
     <meta name="apple-mobile-web-app-title" content="Revolt PHP">
     <meta name="application-name" content="Revolt PHP">
-    <meta name="theme-color" content="#fc5e5b">
+    <meta name="theme-color" content="#fdd835">
 </head>
 
 <body>
+<input type="checkbox" id="menu" name="menu">
 <div class="wrapper">
     <nav class="navigation">
         <a class="logo" href="/">
-            <img class="logo-image" src="/assets/images/revolt.png" alt="Revolt logo" width="64" height="64">
-            <span class="logo-text">Revolt</span>
+            <img class="logo-image" src="/assets/images/logo-text.svg" alt="Revolt" height="28">
         </a>
 
+        <label for="menu" id="menu-switch">
+            <img src="/assets/images/menu.svg" alt="Menu" width="24">
+        </label>
+
         <ul>
-            <!-- <li>
-                <a href="/#quickstart">Quickstart</a>
+            <li>
+                <a href="/">Introduction</a>
             </li>
 
-            <li>
-                <a href="/#usage">Usage</a>
-            </li>
+<!--            <li>-->
+<!--                <a href="/#timers">Timers</a>-->
+<!--            </li>-->
 
-            <li>
-                <a href="/#implementations">Implementations</a>
-            </li> -->
+<!--            <li>-->
+<!--                <a href="/#timers">Streams</a>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a href="/#timers">Signals</a>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a href="/#timers">Fibers</a>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a href="/#implementations">Extensions</a>-->
+<!--            </li>-->
         </ul>
     </nav>
 
-    <article class="content">
-        {{content}}
-    </article>
+    <div class="content-container">
+        <header class="content-header">
+            <div class="container">
+                <span class="breadcrumb">Home</span>
+                <span class="breadcrumb-separator">&gt;</span>
+                <span class="breadcrumb">Event Loop</span>
+            </div>
+        </header>
+
+        <article class="container content">
+            {{content}}
+        </article>
+    </div>
 </div>
+
+<script>
+    function loadScript(src, onload) {
+        const script = document.createElement("script");
+        script.type = "application/javascript";
+        script.async = true;
+        script.onload = function () {
+            script.onload = null;
+            if (onload) {
+                onload();
+            }
+        };
+
+        (document.getElementsByTagName("head")[0]).appendChild(script);
+        script.src = src;
+    }
+
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js', function () {
+        hljs.configure({tabReplace: '    ', languages: ['php', 'js']});
+        hljs.initHighlightingOnLoad();
+    });
+</script>
 </body>
 </html>
