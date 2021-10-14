@@ -3,9 +3,34 @@ title: Revolt - The rock-solid event loop for PHP
 permalink: /
 layout: base
 ---
-# Revolt - The rock-solid event loop for PHP
-It may surprise people to learn that the PHP standard library already has everything we need to write event-driven and non-blocking applications. We only reach the limits of native PHP's functionality in this area when we ask it to poll thousands of file descriptors for IO activity at the same time. Even in this case, though, the fault is not with PHP but the underlying system `select()` call which is linear in its performance degradation as load increases.
+# What is Revolt?
 
-For performance that scales out to high volume we require more advanced capabilities currently found only in extensions. If you wish to, for example, service 10,000 simultaneous clients in an event loop backed socket server, you should use one of the event loop implementations based on a PHP extension. However, if you're using the package in a strictly local program for non-blocking concurrency, or you don't need to handle more than a few hundred simultaneous clients in a server application, the native PHP functionality should be adequate.
+Revolt is a rock-solid event loop for concurrent PHP applications.
+The usual PHP application spends most of its time waiting for I/O.
+While PHP is single threaded, [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking) can be used to allow for concurrency by using the waiting time to do different things.
 
-[Follow us on Twitter](https://twitter.com/revoltphp) for updates.
+PHP's traditional synchronous execution flow is easy to understand. Doing one thing at a time.
+If you query a database, you send the query and wait for a response from the database server.
+Once you have the response, you can start doing the next thing.
+
+Amp, ReactPHP, and other libraries have offered cooperative multitasking in PHP for a long time.
+However, their event-driven nature was incompatible to many existing interfaces and required a different thinking model.
+PHP 8.1 ships with fibers built-in, which offers cooperative multi-threading.
+Calls can be synchronous without promises or callbacks, while still allowing for non-blocking I/O.
+
+Every application making use of cooperative multitasking needs a single scheduler (also called event loop), which this package provides.
+
+## Installation
+
+It may surprise people to learn that the PHP standard library already has everything we need to write event-driven and non-blocking applications.
+This package can be installed as a [Composer](https://getcomposer.org/) dependency on PHP 8 and later.
+PHP 8.1 ships with fibers built-in, but users on PHP 8.0 can install [`ext-fiber`](https://github.com/amphp/ext-fiber) with almost identical behavior.
+
+```bash
+composer require revolt/event-loop
+```
+
+{:.small-hint}
+Applications with many concurrent file descriptors require one of the [extensions](/extensions).
+
+→&nbsp;&nbsp;[Get started](/fundamentals)
