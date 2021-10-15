@@ -253,6 +253,15 @@ pre::-webkit-scrollbar-thumb:hover {
     color: #666;
 }
 
+.note {
+    margin: 16px 0;
+    padding: 0 16px;
+    background: #fff;
+    border: 2px solid var(--color-highlight);
+    border-radius: 4px;
+    font-size: 85%;
+}
+
 .mt-1 {
     margin-top: 4px !important;
 }
