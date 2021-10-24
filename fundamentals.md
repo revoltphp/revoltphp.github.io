@@ -50,7 +50,7 @@ The scheduler runs a loop that does a few things in each iteration:
 
  - Check for any deferred callbacks
  - Check for actionable timer / stream / signal events
- - Wait until the next timer callback expires (unless there are `defer` events to be executed)
+ - Wait for stream activity until the next timer callback expires (unless there are `defer` events to be executed)
 
 The event loop controls the program flow as long as it runs.
 Once we tell the event loop to run it will maintain control until it is suspended, the application errors out, has nothing left to do, or is explicitly stopped.
@@ -69,17 +69,19 @@ use Revolt\EventLoop;
 $suspension = EventLoop::createSuspension();
 
 $repeatId = EventLoop::repeat(1, function (): void {
-    print "++ Executing callback created by EventLoop::repeat()" . PHP_EOL;
+    print '++ Executing callback created by EventLoop::repeat()' . PHP_EOL;
 });
 
 EventLoop::delay(5, function () use ($suspension, $repeatId): void {
-    print "++ Executing callback created by EventLoop::delay()" . PHP_EOL;
+    print '++ Executing callback created by EventLoop::delay()' . PHP_EOL;
 
     EventLoop::cancel($repeatId);
     $suspension->resume(null);
 
-    print "++ Executed after script ended" . PHP_EOL;
+    print '++ Suspension::resume() is async!' . PHP_EOL;
 });
+
+print '++ Suspending to event loop...' . PHP_EOL;
 
 $suspension->suspend();
 
@@ -89,13 +91,14 @@ print '++ Script end' . PHP_EOL;
 Upon execution of the above example you should see output like this:
 
 ```plain
+++ Suspending to event loop...
 ++ Executing callback created by EventLoop::repeat()
 ++ Executing callback created by EventLoop::repeat()
 ++ Executing callback created by EventLoop::repeat()
 ++ Executing callback created by EventLoop::repeat()
 ++ Executing callback created by EventLoop::delay()
+++ Suspension::resume() is async!
 ++ Script end
-++ Executed after script ended
 ```
 
 This output demonstrates that what happens inside the event loop is like its own separate program.
@@ -161,7 +164,7 @@ Event callbacks are registered using the methods on `Revolt\EventLoop` and are i
 
 ### Pausing, Resuming and Canceling Callbacks
 
-All event callbacks, regardless of type, can be temporarily disabled and enabled in addition to being cleared via `EventLoop::cancel()`.
+All event callbacks, regardless of type, can be temporarily disabled and enabled in addition to being cancelled via `EventLoop::cancel()`.
 This allows for advanced capabilities such as disabling the acceptance of new socket clients in server applications when simultaneity limits are reached.
 In general, the performance characteristics of event callback reuse via `enable()`/`disable()` are favorable by comparison to repeatedly canceling and re-registering callbacks.
 
@@ -188,7 +191,7 @@ EventLoop::delay(0.5, function () use ($callbackIdToDisable) {
 EventLoop::run();
 ```
 
-After our second event callback executes the event loop exits because there are no longer any enabled event callbacks registered to process.
+After our second event callback executes, the event loop exits because there are no longer any enabled event callbacks registered.
 
 #### Resuming Callbacks
 
@@ -267,7 +270,7 @@ Callbacks can either be referenced or unreferenced. An unreferenced callback doe
 All callbacks are referenced by default.
 
 One example to use unreferenced callbacks is when using signal callbacks.
-Generally, if all callbacks are gone and only the signal callback still exists, you want to exit the event loop unless you're not actively waiting for that event to happen.
+Generally, if all callbacks are gone and only the signal callback still exists, you want to exit the event loop unless you're actively waiting for that event to happen.
 
 #### Referencing Callbacks
 
