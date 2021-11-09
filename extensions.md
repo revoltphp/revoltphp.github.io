@@ -27,5 +27,5 @@ It's not important to choose one implementation for your application.
 The package will automatically select the best available driver.
 It's perfectly fine to have one of the extensions in production while relying on the `StreamSelectDriver` locally for development.
 
-If you want to quickly switch implementations during development, e.g. for comparison or testing, you can set the `REVOLT_LOOP_DRIVER` environment variable to one of the classes.
+If you want to quickly switch implementations during development, e.g. for comparison or testing, you can set the `REVOLT_DRIVER` environment variable to one of the classes.
 If you use a custom implementation, this only works if the implementation's constructor doesn't take any arguments.
