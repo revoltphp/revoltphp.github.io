@@ -16,7 +16,7 @@ Once you have the response, you can start doing the next thing.
 Amp, ReactPHP, and other libraries have offered cooperative multitasking in PHP for a long time.
 However, their event-driven nature was incompatible to many existing interfaces and required a different thinking model.
 PHP 8.1 ships with fibers built-in, which offers cooperative multi-threading.
-Calls can be synchronous without promises or callbacks, while still allowing for non-blocking I/O.
+Calls can be asynchronous without promises or callbacks, while still allowing for non-blocking I/O.
 
 Every application making use of cooperative multitasking needs a single scheduler (also called event loop), which this package provides.
 Revolt is the result of combining years of experience of Amp's and ReactPHP's event loop implementations.
