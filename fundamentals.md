@@ -132,7 +132,7 @@ $readableId = EventLoop::onReadable(STDIN, function ($id, $stream) use ($suspens
     $suspension->resume(null);
 });
 
-$timeoutId = EventLoop::delay(5, function () use ($readableId) {
+$timeoutId = EventLoop::delay(5, function () use ($readableId, $suspension) {
     EventLoop::cancel($readableId);
     
     print "Timeout reached" . PHP_EOL;
