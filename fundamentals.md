@@ -66,7 +66,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Revolt\EventLoop;
 
-$suspension = EventLoop::createSuspension();
+$suspension = EventLoop::getSuspension();
 
 $repeatId = EventLoop::repeat(1, function (): void {
     print '++ Executing callback created by EventLoop::repeat()' . PHP_EOL;
@@ -120,7 +120,7 @@ if (\stream_set_blocking(STDIN, false) !== true) {
 
 print "Write something and hit enter" . PHP_EOL;
 
-$suspension = EventLoop::createSuspension();
+$suspension = EventLoop::getSuspension();
 
 $readableId = EventLoop::onReadable(STDIN, function ($id, $stream) use ($suspension): void {
     EventLoop::cancel($id);

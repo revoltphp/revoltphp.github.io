@@ -15,7 +15,7 @@ Suspensions allow awaiting an event by suspending the current execution context 
 They will suspend the current fiber and return to the event loop, or start running the event loop if called from outside a fiber, i.e. from `{main}`.
 
 Fibers should be suspended and resumed using the `Revolt\EventLoop\Suspension` API.
-`Suspension` objects can be created using `Revolt\EventLoop::createSuspension()`.
+`Suspension` objects can be created using `Revolt\EventLoop::getSuspension()`.
 After obtaining a `Suspension` object, an event callback can be registered to schedule the resumption of the current fiber.
 `$suspension->suspend()` will suspend the current execution context until it is resumed via `$suspension->resume()` or `$suspension->throw()`.
 
@@ -37,7 +37,7 @@ if (\stream_set_blocking(STDIN, false) !== true) {
 
 print "Write something and hit enter" . PHP_EOL;
 
-$suspension = EventLoop::createSuspension();
+$suspension = EventLoop::getSuspension();
 
 $readableId = EventLoop::onReadable(STDIN, function ($id, $stream) use ($suspension): void {
     EventLoop::cancel($id);
